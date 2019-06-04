@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+    <script id="vertex-shader" type="x-shader/x-vertex">
+        
+           attribute  vec4 vPosition;
+           attribute vec4 vColor;
+           attribute  vec2 vTexCoord;
+           varying vec4 fColor;
+           uniform mat4 modelViewMatrix;
+           uniform mat4 projectionMatrix;
+           uniform float useTexture;
+           varying vec2 fTexCoord;
+           varying float fuseTexture;
+        
+
+        void main()
+        {
+            fuseTexture = useTexture;
+            fColor = vColor;
+            fTexCoord = vTexCoord;
+            gl_Position = projectionMatrix * modelViewMatrix * vPosition;
+        }
+
+        
+    </script>
+
+    <script id="fragment-shader" type="x-shader/x-fragment">
+
+        precision mediump float;
+        varying vec4 fColor;
+
+        varying  vec2 fTexCoord;
+        varying float fuseTexture;
+
+        uniform sampler2D Tex0;
+        uniform sampler2D Tex1;
+
+        void main()
+        {
+            if(fuseTexture == 1.0){
+                gl_FragColor = fColor*texture2D(Tex0, fTexCoord);
+                }
+            else if (fuseTexture == 2.0){
+                gl_FragColor = fColor*texture2D(Tex0, fTexCoord)*texture2D(Tex1, fTexCoord);
+                }
+            else{
+                gl_FragColor = fColor;
+                }
+        }
+    </script>
+
+   
+
+    <script type="text/javascript" src="Common/webgl-utils.js"></script>
+    <script type="text/javascript" src="Common/initShaders.js"></script>
+    <script type="text/javascript" src="Common/MV.js"></script>
+    <script type="text/javascript" src="Homework2.js"></script>
+
+    <body>
+            <button id="startAnimation" style="background-color:black;color:rgb(187, 204, 38);width:150px; height:40px;" >Click To Animate!</button>
+            <br>
+        <canvas id="gl-canvas" width="1000" height="800">
+            Oops ... your browser doesn't support the HTML5 canvas element
+        </canvas>
+       
+        
+    </body>
+</html>
+
+
+
+
+
+
+
+
+ 
